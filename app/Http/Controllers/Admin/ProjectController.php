@@ -7,6 +7,8 @@ use App\Models\Project;
 use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
+
 
 
 class ProjectController extends Controller
@@ -17,8 +19,12 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        $projects = Project::all();
-
+        if(Auth::user()->isAdmin()){
+            $projects = Project::all();
+        } else {
+            $userId = Auth::id();
+            $projects = Project::where('user_id', $userId)->get();
+        }
         return view('admin.projects.index', compact('projects'));
     }
 
@@ -38,9 +44,11 @@ class ProjectController extends Controller
      */
     public function store(StoreProjectRequest $request)
     {
+        $userId = Auth::id();
         $data = $request->validated();
         $slug = Project::generateSlug($request->title);
         $data['slug'] = $slug;
+        $data['user_id'] = $userId;
         if($request->hasFile('cover_image')){
             $path = Storage::disk('public')->put('project_image', $request->cover_image);
             $data['cover_image'] = $path;
@@ -56,6 +64,9 @@ class ProjectController extends Controller
      */
     public function show(Project $project)
     {
+        if(!Auth::user()->isAdmin() && $project->user_id !== Auth::id()){
+            abort(403);
+        }
         return view('admin.projects.show', compact('project'));
     }
 
@@ -66,6 +77,9 @@ class ProjectController extends Controller
      */
     public function edit(Project $project)
     {
+        if(!Auth::user()->isAdmin() && $project->user_id !== Auth::id()){
+            abort(403);
+        }
         return view('admin.projects.edit',compact('project'));
     }
 
@@ -77,6 +91,9 @@ class ProjectController extends Controller
      */
     public function update(UpdateProjectRequest $request, Project $project)
     {
+        if(!Auth::user()->isAdmin() && $project->user_id !== Auth::id()){
+            abort(403);
+        }
         $data = $request->validated();
         $slug = Project::generateSlug($request->title);
         $data['slug'] = $slug;
@@ -84,7 +101,7 @@ class ProjectController extends Controller
         return redirect()->route('admin . projects . index')->with('message', "$project->title updated succefully");
 
     }
-
+ 
     /**
      * Remove the specified resource from storage.
      *
@@ -92,6 +109,9 @@ class ProjectController extends Controller
      */
     public function destroy(Project $project)
     {
+        if(!Auth::user()->isAdmin() && $project->user_id !== Auth::id()){
+            abort(403);
+        }
         $project->delete();
         return redirect()->route('admin.projects.index')->with('message', "$project->title deleted successfully");
     }
