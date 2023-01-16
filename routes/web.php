@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ProjectController;
 
 use App\Http\Controllers\Admin\DashboardController;
@@ -29,6 +30,8 @@ Route::middleware(['auth', 'verified'])->name('admin.')->prefix('admin')
          Route::get('/', [DashboardController::class, 'index'])
          ->name('dashboard');
         Route::resource('projects', ProjectController::class)->parameters(['projects' => 'project:slug']);
+        Route::resource('categories', CategoryController::class)->parameters(['categories' => 'category:slug']);
+
    });
 
 

@@ -48,12 +48,12 @@ class User extends Authenticatable
         return $this->is_admin == true;
     }
        /**
-     * Get all of the posts for the User
+     * Get all of the projects for the User
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function posts(): HasMany
+    public function projects(): HasMany
     {
-        return $this->hasMany(Post::class);
+        return $this->hasMany(Project::class);
     }
 }

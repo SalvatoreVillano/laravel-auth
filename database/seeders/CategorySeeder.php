@@ -4,6 +4,8 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
+use App\Models\Category;
 
 class CategorySeeder extends Seeder
 {
@@ -14,6 +16,12 @@ class CategorySeeder extends Seeder
      */
     public function run()
     {
-        //
+        $categories = ['Javacript', 'PHP', 'Laravel', 'Vue'];
+        foreach ($categories as $category) {
+            $newcategory = new Category();
+            $newcategory->name = $category;
+            $newcategory->slug = Str::slug($newcategory->name, '-');
+            $newcategory->save();
+        }
     }
 }

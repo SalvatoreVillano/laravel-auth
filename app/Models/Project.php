@@ -20,7 +20,7 @@ class Project extends Model
         return Str::slug($title, '-');
     }
         /**
-     * The tags that belong to the Post
+     * The tags that belong to the Project
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -28,5 +28,9 @@ class Project extends Model
     {
         return $this->belongsTo(User::class);
 
+    }
+    public function category():BelongsTo
+    {
+        return $this->belongsTo(Category::class);
     }
 }
