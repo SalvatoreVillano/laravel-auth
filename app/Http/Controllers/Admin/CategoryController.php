@@ -1,11 +1,13 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Requests\UpdateCategoryRequest;
 use Illuminate\Support\Facades\Auth;
+
 
 class CategoryController extends Controller
 {
@@ -33,10 +35,10 @@ class CategoryController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\StoreCategoryRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreCategoryRequest $request)
+    public function store(\App\Http\Requests\StoreCategoryRequest $request)
+
     {
         $data = $request->validated();
         $slug = Category::generateSlug($request->name);
@@ -79,8 +81,6 @@ class CategoryController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\UpdateCategoryRequest  $request
-     * @param  \App\Models\Category  $category
      *
      */
     public function update(UpdateCategoryRequest $request, Category $category)
