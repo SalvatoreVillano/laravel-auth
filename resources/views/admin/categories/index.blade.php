@@ -13,7 +13,7 @@
             <tr>
                 <th scope="col">#</th>
                 <th scope="col">Name</th>
-                <th scope="col">Post</th>
+                <th scope="col">Project</th>
                 <th scope="col">Edit</th>
                 <th scope="col">Delete</th>
             </tr>

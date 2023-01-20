@@ -39,8 +39,8 @@ class ProjectController extends Controller
     {
         $categories = Category::all();
         $tags = Tag::all();
-        return view('admin.projects.create', compact('categories','tags'));
-
+        return view('admin.projects.create', compact('categories', 'tags'));
+    }
     /**
      * Store a newly created resource in storage.
      *
